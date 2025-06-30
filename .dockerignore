@@ -1,1 +1,39 @@
+# Existing
 data/
+
+# Node
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+
+# Tests
+test/
+coverage/
+
+# Docker related files (often not needed inside the image itself)
+Dockerfile
+docker-compose.yml
+docker-compose.*.yml
+
+# Editor and OS specific
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
