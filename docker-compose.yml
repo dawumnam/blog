@@ -1,18 +1,28 @@
-version: "3"
-services: 
-    dawumnam:
-        container_name: dawumnam
-        image: dawumnam/dawumnam
-        restart: always
-        build: .
-        ports: 
-            - "5000:5000"
-        links: 
-            - mongo
-    mongo:
-        container_name: mongo
-        image: mongo
-        volumes: 
-            - ./data:/data/db
-        ports: 
-            - '27017:27017'
+version: "3.8" # Using a more specific recent version
+services:
+  dawumnam:
+    container_name: dawumnam
+    # image: dawumnam/dawumnam # Assuming local build is preferred during dev/test
+    restart: always
+    build: .
+    ports:
+      - "5000:5000"
+    networks: # Assign to custom network
+      - app-network
+    depends_on: # Ensure mongo starts before this service attempts to connect
+      mongo:
+        condition: service_started # Or service_healthy if mongo image has healthcheck
+  mongo:
+    container_name: mongo
+    image: mongo:4.4 # Pinning version for stability, can be latest
+    restart: always
+    volumes:
+      - ./data:/data/db
+    ports:
+      - '27017:27017'
+    networks: # Assign to custom network
+      - app-network
+
+networks: # Define the custom network
+  app-network:
+    driver: bridge
